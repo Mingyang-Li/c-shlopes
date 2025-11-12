@@ -1,0 +1,146 @@
+# Created by Visual Studio .gitignore template with adjustments for .NET SDK projects.
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+
+# Rider
+.idea/
+*.sln.iml
+
+# DotCover
+*.dotCover
+
+# Others
+*.[Cc]ache
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+
+# Azure
+*.azurePubxml
+*.publishsettings
+
+# IIS Express
+.vs/
+*.vspscc
+*.vssscc
+
+# Rider local history
+.idea/.idea.LocalHistory/
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# Logs
+*.log
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because NuGet will restore packages
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+# MSBuild Binary and object files
+*.obj
+*.pdb
+*.dll
+*.exe
+*.app
+*.so
+*.dylib
+*.pkg
+
+# Dotnet CLI
+.dotnet/
+
+# Entity Framework
+*_i.c
+*_p.c
+*_h.h
+*.db
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# StyleCop
+StyleCopReport.xml
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+# TFS workspace
+$tf/
+
+# Dotnet project lock files
+project.lock.json
+project.fragment.lock.json
+
+# VS Code
+.vscode/
+
+# Backup & report files
+*.bak
+*.old
+*.orig
+*.swp
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Rider caches
+.idea/
+
+# Local environment
+.env
+*.local.json
+
+# Docker
+**/docker-compose.override.yml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Node/npm (future frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+

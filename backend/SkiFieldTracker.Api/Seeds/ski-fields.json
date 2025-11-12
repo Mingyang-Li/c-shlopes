@@ -1,0 +1,63 @@
+[
+  {
+    "name": "Whistler Blackcomb",
+    "country": "Canada",
+    "region": "British Columbia",
+    "adultFullDayPassUsd": 185.00
+  },
+  {
+    "name": "Vail",
+    "country": "United States",
+    "region": "Colorado",
+    "adultFullDayPassUsd": 199.00
+  },
+  {
+    "name": "Aspen Snowmass",
+    "country": "United States",
+    "region": "Colorado",
+    "adultFullDayPassUsd": 209.00
+  },
+  {
+    "name": "Chamonix",
+    "country": "France",
+    "region": "Auvergne-Rhône-Alpes",
+    "adultFullDayPassUsd": 110.00
+  },
+  {
+    "name": "Zermatt",
+    "country": "Switzerland",
+    "region": "Valais",
+    "adultFullDayPassUsd": 145.00
+  },
+  {
+    "name": "Cortina d'Ampezzo",
+    "country": "Italy",
+    "region": "Veneto",
+    "adultFullDayPassUsd": 120.00
+  },
+  {
+    "name": "Hakuba Happo-one",
+    "country": "Japan",
+    "region": "Nagano",
+    "adultFullDayPassUsd": 95.00
+  },
+  {
+    "name": "Perisher",
+    "country": "Australia",
+    "region": "New South Wales",
+    "adultFullDayPassUsd": 125.00
+  },
+  {
+    "name": "Portillo",
+    "country": "Chile",
+    "region": "Valparaíso",
+    "adultFullDayPassUsd": 85.00
+  },
+  {
+    "name": "The Remarkables",
+    "country": "New Zealand",
+    "region": "Otago",
+    "adultFullDayPassUsd": 105.00
+  }
+]
+

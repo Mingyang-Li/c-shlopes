@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "SkiFieldTracker.Api": {
+      "commandName": "Project",
+      "commandLineArgs": "",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7127;http://localhost:5127",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Host=localhost;Port=5432;Database=ski_field_tracker;Username=ski_admin;Password=ski_admin_pw"
+      }
+    }
+  }
+}
+
