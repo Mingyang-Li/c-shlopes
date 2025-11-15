@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'backend/SkiFieldTracker.Api/**'
   workflow_dispatch:
 
 jobs:
@@ -25,15 +27,17 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        working-directory: ./backend/SkiFieldTracker.Api
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ./publish
+        working-directory: ./backend/SkiFieldTracker.Api
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./backend/SkiFieldTracker.Api/publish
 
   deploy:
     runs-on: ubuntu-latest
