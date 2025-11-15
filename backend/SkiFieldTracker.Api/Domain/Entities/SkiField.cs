@@ -1,8 +1,10 @@
+using NanoidDotNet;
 namespace SkiFieldTracker.Domain.Entities;
 
 public class SkiField
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
+    public string Uid { get; private set; } = Nanoid.Generate(size: 21);
     public string Name { get; set; } = string.Empty;
     public string CountryCode { get; set; } = string.Empty;
     public string Region { get; set; } = string.Empty;

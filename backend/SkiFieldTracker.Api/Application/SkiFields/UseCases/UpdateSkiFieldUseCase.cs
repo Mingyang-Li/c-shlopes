@@ -6,18 +6,18 @@ namespace SkiFieldTracker.Application.SkiFields.UseCases;
 
 public interface IUpdateSkiFieldUseCase
 {
-    Task<SkiFieldResponse> ExecuteAsync(Guid id, UpdateSkiFieldRequest request, CancellationToken cancellationToken);
+    Task<SkiFieldResponse> ExecuteAsync(string uid, UpdateSkiFieldRequest request, CancellationToken cancellationToken);
 }
 
 public sealed class UpdateSkiFieldUseCase(ISkiFieldRepository repository) : IUpdateSkiFieldUseCase
 {
-    public async Task<SkiFieldResponse> ExecuteAsync(Guid id, UpdateSkiFieldRequest request, CancellationToken cancellationToken)
+    public async Task<SkiFieldResponse> ExecuteAsync(string uid, UpdateSkiFieldRequest request, CancellationToken cancellationToken)
     {
-        var skiField = await repository.GetByIdAsync(id, cancellationToken);
+        var skiField = await repository.GetByUidAsync(uid, cancellationToken);
 
         if (skiField is null)
         {
-            throw new SkiFieldNotFoundException(id);
+            throw new SkiFieldNotFoundException(uid);
         }
 
         var normalizedName = request.Name.Trim();
@@ -42,6 +42,6 @@ public sealed class UpdateSkiFieldUseCase(ISkiFieldRepository repository) : IUpd
     }
 }
 
-public sealed class SkiFieldNotFoundException(Guid id)
-    : KeyNotFoundException($"Ski field '{id}' was not found.");
+public sealed class SkiFieldNotFoundException(string uid)
+    : KeyNotFoundException($"Ski field '{uid}' was not found.");
 

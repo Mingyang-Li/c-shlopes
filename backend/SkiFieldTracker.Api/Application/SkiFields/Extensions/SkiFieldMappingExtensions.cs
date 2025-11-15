@@ -6,15 +6,17 @@ namespace SkiFieldTracker.Application.SkiFields.Extensions;
 public static class SkiFieldMappingExtensions
 {
     public static SkiFieldResponse ToResponse(this SkiField entity) =>
-        new(
-            entity.Id,
-            entity.Name,
-            entity.CountryCode,
-            entity.Region,
-            entity.FullDayPassPrice,
-            entity.Currency,
-            entity.NearestTown,
-            entity.CreatedAt,
-            entity.UpdatedAt);
+        new()
+        {
+            Id = entity.Uid, // Map Uid to Id in response
+            Name = entity.Name,
+            CountryCode = entity.CountryCode,
+            Region = entity.Region,
+            FullDayPassPrice = entity.FullDayPassPrice,
+            Currency = entity.Currency,
+            NearestTown = entity.NearestTown,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt
+        };
 }
 

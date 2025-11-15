@@ -23,8 +23,8 @@ public class SkiFieldRepository : ISkiFieldRepository
             cancellationToken);
     }
 
-    public Task<SkiField?> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
-        _dbContext.SkiFields.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    public Task<SkiField?> GetByUidAsync(string uid, CancellationToken cancellationToken) =>
+        _dbContext.SkiFields.FirstOrDefaultAsync(x => x.Uid == uid, cancellationToken);
 
     public async Task AddAsync(SkiField skiField, CancellationToken cancellationToken) =>
         await _dbContext.SkiFields.AddAsync(skiField, cancellationToken);

@@ -13,7 +13,18 @@ public class SkiFieldConfiguration : IEntityTypeConfiguration<SkiField>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
-            .HasColumnName("id");
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(x => x.Uid)
+            .HasMaxLength(21)
+            .IsRequired()
+            .HasColumnName("uid")
+            .ValueGeneratedNever();
+
+        builder.HasIndex(x => x.Uid)
+            .IsUnique()
+            .HasDatabaseName("ux_ski_fields_uid");
 
         builder.Property(x => x.Name)
             .HasMaxLength(120)

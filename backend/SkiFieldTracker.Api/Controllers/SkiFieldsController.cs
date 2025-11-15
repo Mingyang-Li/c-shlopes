@@ -76,13 +76,13 @@ public class SkiFieldsController : ControllerBase
         }
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("{uid}")]
     [ProducesResponseType(typeof(SkiFieldResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> UpdateAsync(
-        Guid id,
+        string uid,
         [FromBody] UpdateSkiFieldRequest request,
         CancellationToken cancellationToken)
     {
@@ -93,7 +93,7 @@ public class SkiFieldsController : ControllerBase
 
         try
         {
-            var result = await _updateUseCase.ExecuteAsync(id, request, cancellationToken);
+            var result = await _updateUseCase.ExecuteAsync(uid, request, cancellationToken);
             return Ok(result);
         }
         catch (SkiFieldNotFoundException ex)
@@ -106,14 +106,14 @@ public class SkiFieldsController : ControllerBase
         }
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{uid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteAsync(string uid, CancellationToken cancellationToken)
     {
         try
         {
-            await _deleteUseCase.ExecuteAsync(id, cancellationToken);
+            await _deleteUseCase.ExecuteAsync(uid, cancellationToken);
             return NoContent();
         }
         catch (SkiFieldNotFoundException ex)

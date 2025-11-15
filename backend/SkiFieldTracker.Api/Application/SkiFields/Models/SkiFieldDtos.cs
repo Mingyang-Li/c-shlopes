@@ -54,14 +54,16 @@ public sealed class UpdateSkiFieldRequest
     public string NearestTown { get; init; } = string.Empty;
 }
 
-public sealed record SkiFieldResponse(
-    Guid Id,
-    string Name,
-    string CountryCode,
-    string Region,
-    decimal FullDayPassPrice,
-    string Currency,
-    string NearestTown,
-    DateTime CreatedAt,
-    DateTime UpdatedAt);
+public sealed class SkiFieldResponse
+{
+    public string Id { get; init; } = string.Empty; // This is the Uid, exposed as "id" to clients
+    public string Name { get; init; } = string.Empty;
+    public string CountryCode { get; init; } = string.Empty;
+    public string Region { get; init; } = string.Empty;
+    public decimal FullDayPassPrice { get; init; }
+    public string Currency { get; init; } = string.Empty;
+    public string NearestTown { get; init; } = string.Empty;
+    public DateTime CreatedAt { get; init; }
+    public DateTime UpdatedAt { get; init; }
+}
 

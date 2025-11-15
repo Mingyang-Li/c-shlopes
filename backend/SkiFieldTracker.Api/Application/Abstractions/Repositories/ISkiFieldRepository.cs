@@ -7,7 +7,7 @@ namespace SkiFieldTracker.Application.Abstractions.Repositories;
 public interface ISkiFieldRepository
 {
     Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken);
-    Task<SkiField?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<SkiField?> GetByUidAsync(string uid, CancellationToken cancellationToken);
     Task AddAsync(SkiField skiField, CancellationToken cancellationToken);
     Task UpdateAsync(SkiField skiField, CancellationToken cancellationToken);
     Task DeleteAsync(SkiField skiField, CancellationToken cancellationToken);
