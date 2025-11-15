@@ -4,13 +4,14 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using SkiFieldTracker.Application.Abstractions.Repositories;
 using SkiFieldTracker.Application.SkiFields.UseCases;
 using SkiFieldTracker.Infrastructure.Persistence;
 using SkiFieldTracker.Infrastructure.Repositories;
 
 var seedOnly = args.Any(a => string.Equals(a, "--seed", StringComparison.OrdinalIgnoreCase));
+var cleanOnly = args.Any(a => string.Equals(a, "--clean", StringComparison.OrdinalIgnoreCase));
+var resetDb = args.Any(a => string.Equals(a, "--reset", StringComparison.OrdinalIgnoreCase));
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +50,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Ski Field Tracker API",
         Version = "v1",
-        Description = "REST API for managing ski field information with Prisma-style filtering semantics."
+        Description = "REST API letting you explore ski field options around the world"
     });
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -105,10 +106,24 @@ await using (var scope = app.Services.CreateAsyncScope())
 {
     var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
     await seeder.EnsureDatabaseMigratedAsync(CancellationToken.None);
+
+    if (cleanOnly)
+    {
+        await seeder.CleanAsync(CancellationToken.None);
+        return;
+    }
+
+    if (resetDb)
+    {
+        await seeder.CleanAsync(CancellationToken.None);
+        await seeder.SeedAsync(CancellationToken.None);
+        return;
+    }
+
     await seeder.SeedAsync(CancellationToken.None);
 }
 
-if (seedOnly)
+if (seedOnly || cleanOnly || resetDb)
 {
     return;
 }

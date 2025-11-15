@@ -20,20 +20,30 @@ public class SkiFieldConfiguration : IEntityTypeConfiguration<SkiField>
             .IsRequired()
             .HasColumnName("name");
 
-        builder.Property(x => x.Country)
-            .HasMaxLength(80)
+        builder.Property(x => x.CountryCode)
+            .HasMaxLength(3)
             .IsRequired()
-            .HasColumnName("country");
+            .HasColumnName("country_code");
 
         builder.Property(x => x.Region)
             .HasMaxLength(120)
             .IsRequired()
             .HasColumnName("region");
 
-        builder.Property(x => x.AdultFullDayPassUsd)
+        builder.Property(x => x.FullDayPassPrice)
             .HasColumnType("numeric(10,2)")
             .IsRequired()
-            .HasColumnName("adult_full_day_pass_usd");
+            .HasColumnName("full_day_pass_price");
+
+        builder.Property(x => x.Currency)
+            .HasMaxLength(3)
+            .IsRequired()
+            .HasColumnName("currency");
+
+        builder.Property(x => x.NearestTown)
+            .HasMaxLength(120)
+            .IsRequired()
+            .HasColumnName("nearest_town");
 
         builder.Property(x => x.CreatedAt)
             .HasColumnName("created_at")

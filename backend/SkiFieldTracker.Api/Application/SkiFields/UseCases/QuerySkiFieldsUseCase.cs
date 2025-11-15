@@ -19,7 +19,11 @@ public sealed class QuerySkiFieldsUseCase(ISkiFieldRepository repository) : IQue
         var totalCount = await repository.CountAsync(normalizedRequest.Where, cancellationToken);
         var entities = await repository.QueryAsync(normalizedRequest, cancellationToken);
         var responses = entities.Select(x => x.ToResponse()).ToList();
-        return new PaginatedResult<SkiFieldResponse>(responses, totalCount, normalizedRequest.Skip, normalizedRequest.Take);
+        return new PaginatedResult<SkiFieldResponse>
+        {
+            Items = responses,
+            TotalCount = totalCount
+        };
     }
 
     private static FindManyRequest NormalizeRequest(FindManyRequest request)

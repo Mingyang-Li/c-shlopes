@@ -80,9 +80,9 @@ public class SkiFieldRepository : ISkiFieldRepository
             query = ApplyStringFilter(query, nameFilter, nameof(SkiField.Name));
         }
 
-        if (filter.Country is { } countryFilter)
+        if (filter.CountryCode is { } countryCodeFilter)
         {
-            query = ApplyStringFilter(query, countryFilter, nameof(SkiField.Country));
+            query = ApplyStringFilter(query, countryCodeFilter, nameof(SkiField.CountryCode));
         }
 
         if (filter.Region is { } regionFilter)
@@ -90,9 +90,19 @@ public class SkiFieldRepository : ISkiFieldRepository
             query = ApplyStringFilter(query, regionFilter, nameof(SkiField.Region));
         }
 
-        if (filter.AdultFullDayPassUsd is { } priceFilter)
+        if (filter.FullDayPassPrice is { } priceFilter)
         {
-            query = ApplyNumericFilter(query, priceFilter, nameof(SkiField.AdultFullDayPassUsd));
+            query = ApplyNumericFilter(query, priceFilter, nameof(SkiField.FullDayPassPrice));
+        }
+
+        if (filter.Currency is { } currencyFilter)
+        {
+            query = ApplyStringFilter(query, currencyFilter, nameof(SkiField.Currency));
+        }
+
+        if (filter.NearestTown is { } nearestTownFilter)
+        {
+            query = ApplyStringFilter(query, nearestTownFilter, nameof(SkiField.NearestTown));
         }
 
         return query;
@@ -182,12 +192,16 @@ public class SkiFieldRepository : ISkiFieldRepository
         {
             ("name", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.Name) : ordered.ThenBy(x => x.Name),
             ("name", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.Name) : ordered.ThenByDescending(x => x.Name),
-            ("country", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.Country) : ordered.ThenBy(x => x.Country),
-            ("country", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.Country) : ordered.ThenByDescending(x => x.Country),
+            ("countrycode", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.CountryCode) : ordered.ThenBy(x => x.CountryCode),
+            ("countrycode", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.CountryCode) : ordered.ThenByDescending(x => x.CountryCode),
             ("region", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.Region) : ordered.ThenBy(x => x.Region),
             ("region", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.Region) : ordered.ThenByDescending(x => x.Region),
-            ("adultfulldaypassusd", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.AdultFullDayPassUsd) : ordered.ThenBy(x => x.AdultFullDayPassUsd),
-            ("adultfulldaypassusd", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.AdultFullDayPassUsd) : ordered.ThenByDescending(x => x.AdultFullDayPassUsd),
+            ("fulldaypassprice", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.FullDayPassPrice) : ordered.ThenBy(x => x.FullDayPassPrice),
+            ("fulldaypassprice", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.FullDayPassPrice) : ordered.ThenByDescending(x => x.FullDayPassPrice),
+            ("currency", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.Currency) : ordered.ThenBy(x => x.Currency),
+            ("currency", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.Currency) : ordered.ThenByDescending(x => x.Currency),
+            ("nearesttown", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.NearestTown) : ordered.ThenBy(x => x.NearestTown),
+            ("nearesttown", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.NearestTown) : ordered.ThenByDescending(x => x.NearestTown),
             ("createdat", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.CreatedAt) : ordered.ThenBy(x => x.CreatedAt),
             ("createdat", SortDirection.Desc) => ordered is null ? source.OrderByDescending(x => x.CreatedAt) : ordered.ThenByDescending(x => x.CreatedAt),
             ("updatedat", SortDirection.Asc) => ordered is null ? source.OrderBy(x => x.UpdatedAt) : ordered.ThenBy(x => x.UpdatedAt),

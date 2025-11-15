@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SkiFieldTracker.Domain.Entities;
@@ -22,25 +21,28 @@ public class DataSeeder
         await _dbContext.Database.MigrateAsync(cancellationToken);
     }
 
-    public async Task SeedAsync(CancellationToken cancellationToken)
+    public async Task CleanAsync(CancellationToken cancellationToken)
     {
-        var seedFilePath = Path.Combine(AppContext.BaseDirectory, "Seeds", "ski-fields.json");
-        if (!File.Exists(seedFilePath))
+        var count = await _dbContext.SkiFields.CountAsync(cancellationToken);
+        if (count == 0)
         {
-            _logger.LogWarning("Seed file {SeedFile} not found. Skipping seeding.", seedFilePath);
+            _logger.LogInformation("Database is already empty. Nothing to clean.");
             return;
         }
 
-        var json = await File.ReadAllTextAsync(seedFilePath, cancellationToken);
+        _logger.LogInformation("Cleaning {Count} ski fields from database...", count);
+        _dbContext.SkiFields.RemoveRange(_dbContext.SkiFields);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation("Database cleaned successfully.");
+    }
 
-        var seedItems = JsonSerializer.Deserialize<List<SeedSkiField>>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        }) ?? [];
+    public async Task SeedAsync(CancellationToken cancellationToken)
+    {
+        var seedItems = SeedData.GetSkiFields();
 
         if (seedItems.Count == 0)
         {
-            _logger.LogInformation("No seed data found in {SeedFile}.", seedFilePath);
+            _logger.LogInformation("No seed data found.");
             return;
         }
 
@@ -48,19 +50,8 @@ public class DataSeeder
             .Select(x => x.Name.ToLower())
             .ToListAsync(cancellationToken);
 
-        var now = DateTime.UtcNow;
         var newEntities = seedItems
             .Where(item => !existingNames.Contains(item.Name.Trim().ToLower()))
-            .Select(item => new SkiField
-            {
-                Id = Guid.NewGuid(),
-                Name = item.Name.Trim(),
-                Country = item.Country.Trim(),
-                Region = item.Region.Trim(),
-                AdultFullDayPassUsd = decimal.Round(item.AdultFullDayPassUsd, 2, MidpointRounding.AwayFromZero),
-                CreatedAt = now,
-                UpdatedAt = now
-            })
             .ToList();
 
         if (newEntities.Count == 0)
@@ -73,11 +64,5 @@ public class DataSeeder
         await _dbContext.SkiFields.AddRangeAsync(newEntities, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
-
-    private sealed record SeedSkiField(
-        string Name,
-        string Country,
-        string Region,
-        decimal AdultFullDayPassUsd);
 }
 

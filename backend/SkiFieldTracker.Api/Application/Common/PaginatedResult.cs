@@ -1,8 +1,16 @@
 namespace SkiFieldTracker.Application.Common;
 
-public sealed record PaginatedResult<T>(
-    IReadOnlyList<T> Items,
-    int TotalCount,
-    int? Skip,
-    int? Take);
+public sealed class PaginatedResult<T>
+{
+    public IReadOnlyList<T> Items { get; init; } = Array.Empty<T>();
+    public int TotalCount { get; init; }
+
+    public PaginatedResult() { }
+
+    public PaginatedResult(IReadOnlyList<T> items, int totalCount)
+    {
+        Items = items;
+        TotalCount = totalCount;
+    }
+}
 

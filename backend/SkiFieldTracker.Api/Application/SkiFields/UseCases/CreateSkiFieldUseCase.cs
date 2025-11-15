@@ -26,9 +26,11 @@ public sealed class CreateSkiFieldUseCase(ISkiFieldRepository repository) : ICre
         {
             Id = Guid.NewGuid(),
             Name = normalizedName,
-            Country = request.Country.Trim(),
+            CountryCode = request.CountryCode.Trim().ToUpperInvariant(),
             Region = request.Region.Trim(),
-            AdultFullDayPassUsd = decimal.Round(request.AdultFullDayPassUsd, 2, MidpointRounding.AwayFromZero),
+            FullDayPassPrice = decimal.Round(request.FullDayPassPrice, 2, MidpointRounding.AwayFromZero),
+            Currency = request.Currency.Trim().ToUpperInvariant(),
+            NearestTown = request.NearestTown.Trim(),
             CreatedAt = now,
             UpdatedAt = now
         };

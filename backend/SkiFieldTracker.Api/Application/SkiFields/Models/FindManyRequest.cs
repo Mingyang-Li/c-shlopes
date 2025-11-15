@@ -22,14 +22,20 @@ public sealed class SkiFieldFilter
     [JsonPropertyName("name")]
     public StringFilter? Name { get; init; }
 
-    [JsonPropertyName("country")]
-    public StringFilter? Country { get; init; }
+    [JsonPropertyName("countryCode")]
+    public StringFilter? CountryCode { get; init; }
 
     [JsonPropertyName("region")]
     public StringFilter? Region { get; init; }
 
-    [JsonPropertyName("adultFullDayPassUsd")]
-    public NumericFilter? AdultFullDayPassUsd { get; init; }
+    [JsonPropertyName("fullDayPassPrice")]
+    public NumericFilter? FullDayPassPrice { get; init; }
+
+    [JsonPropertyName("currency")]
+    public StringFilter? Currency { get; init; }
+
+    [JsonPropertyName("nearestTown")]
+    public StringFilter? NearestTown { get; init; }
 }
 
 public sealed class StringFilter

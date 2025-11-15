@@ -9,9 +9,11 @@ public static class SkiFieldMappingExtensions
         new(
             entity.Id,
             entity.Name,
-            entity.Country,
+            entity.CountryCode,
             entity.Region,
-            entity.AdultFullDayPassUsd,
+            entity.FullDayPassPrice,
+            entity.Currency,
+            entity.NearestTown,
             entity.CreatedAt,
             entity.UpdatedAt);
 }

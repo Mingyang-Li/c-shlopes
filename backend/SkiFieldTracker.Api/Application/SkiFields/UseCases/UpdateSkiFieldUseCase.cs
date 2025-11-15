@@ -28,9 +28,11 @@ public sealed class UpdateSkiFieldUseCase(ISkiFieldRepository repository) : IUpd
         }
 
         skiField.Name = normalizedName;
-        skiField.Country = request.Country.Trim();
+        skiField.CountryCode = request.CountryCode.Trim().ToUpperInvariant();
         skiField.Region = request.Region.Trim();
-        skiField.AdultFullDayPassUsd = decimal.Round(request.AdultFullDayPassUsd, 2, MidpointRounding.AwayFromZero);
+        skiField.FullDayPassPrice = decimal.Round(request.FullDayPassPrice, 2, MidpointRounding.AwayFromZero);
+        skiField.Currency = request.Currency.Trim().ToUpperInvariant();
+        skiField.NearestTown = request.NearestTown.Trim();
         skiField.UpdatedAt = DateTime.UtcNow;
 
         await repository.UpdateAsync(skiField, cancellationToken);

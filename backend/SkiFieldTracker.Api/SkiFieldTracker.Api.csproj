@@ -30,14 +30,29 @@
     </None>
   </ItemGroup>
 
-  <Target Name="DockerPostgresUp">
+  <Target Name="DbUp">
     <Message Importance="high" Text="Starting PostgreSQL using docker compose..." />
     <Exec Command="docker compose -f $(MSBuildProjectDirectory)/docker-compose.postgres.yml up -d" />
   </Target>
 
-  <Target Name="DockerPostgresDown">
+  <Target Name="DbDown">
     <Message Importance="high" Text="Stopping PostgreSQL docker compose stack..." />
     <Exec Command="docker compose -f $(MSBuildProjectDirectory)/docker-compose.postgres.yml down" />
+  </Target>
+
+  <Target Name="DbClean">
+    <Message Importance="high" Text="Cleaning database..." />
+    <Exec Command="dotnet run --project $(MSBuildProjectFile) -- --clean" />
+  </Target>
+
+  <Target Name="DbSeed">
+    <Message Importance="high" Text="Resetting and seeding database..." />
+    <Exec Command="dotnet run --project $(MSBuildProjectFile) -- --reset" />
+  </Target>
+
+  <Target Name="DbReset">
+    <Message Importance="high" Text="Resetting database (clean + seed)..." />
+    <Exec Command="dotnet run --project $(MSBuildProjectFile) -- --reset" />
   </Target>
 </Project>
 
