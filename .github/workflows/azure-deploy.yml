@@ -9,12 +9,15 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: ski-field-tracker-api
+  AZURE_WEBAPP_NAME: skiradar24
   DOTNET_VERSION: '8.0.x'
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     
     steps:
     - uses: actions/checkout@v4
@@ -36,10 +39,17 @@ jobs:
       run: dotnet publish --configuration Release --no-build --output ./publish
       working-directory: ./backend/SkiFieldTracker.Api
     
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D4F9C7B2B163480C9E8E4E1D4A3CC15B }}
+        tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A6EA6EDA4634401BA2B997F9F9D16E2F }}
+        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2EC6B4355F4F47CFB980F7BC7DF225AD }}
+    
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        slot-name: 'Production'
         package: ./backend/SkiFieldTracker.Api/publish
 
