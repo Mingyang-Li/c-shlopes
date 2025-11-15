@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { useSkiFields } from "@/hooks/use-ski-fields";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -46,11 +47,14 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Ski Radar</h1>
-        <p className="text-muted-foreground">
-          Discover and compare ski fields around the world
-        </p>
+      <div className="mb-8 flex justify-between items-start">
+        <div>
+          <h1 className="text-4xl font-bold mb-2">Ski Radar</h1>
+          <p className="text-muted-foreground">
+            Discover and compare ski fields around the world
+          </p>
+        </div>
+        <ThemeToggle />
       </div>
 
       <Card>
