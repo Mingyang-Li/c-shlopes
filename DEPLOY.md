@@ -1,104 +1,112 @@
-# Deployment Guide - Fly.io (Simplest, Free Tier, Node.js-like Experience)
+# Deployment Guide - Azure App Service
 
-## Why Fly.io?
-- ✅ **Simplest .NET deployment** - Just 3 commands
-- ✅ **Free tier** - 3 shared CPU VMs, 256MB RAM each
-- ✅ **Vercel-like experience** - CLI deployment, auto HTTPS
-- ✅ **Zero configuration** - Config files are ready
+## Why Azure App Service?
+- ✅ **Native .NET support** - No Docker needed
+- ✅ **Industry standard** - Microsoft's official platform
+- ✅ **Free tier available** - F1 tier for development
+- ✅ **GitHub integration** - Auto-deploy from GitHub
+- ✅ **Zero configuration** - Works out of the box
 
-## Quick Deployment Steps (5 minutes)
+## Quick Deployment Steps
 
-### 1. Install Fly CLI
+### 1. Create Azure App Service (5 minutes)
 
-```bash
-# macOS
-curl -L https://fly.io/install.sh | sh
+1. Go to https://portal.azure.com
+2. Click "Create a resource" → Search "Web App"
+3. Click "Create"
+4. Fill in:
+   - **Subscription**: Free Trial (or your subscription)
+   - **Resource Group**: Create new (e.g., `ski-field-tracker`)
+   - **Name**: `ski-field-tracker-api` (must be globally unique)
+   - **Publish**: Code
+   - **Runtime stack**: `.NET 8 (LTS)`
+   - **Operating System**: Linux
+   - **Region**: Choose closest to you (e.g., East US)
+   - **App Service Plan**: 
+     - Click "Create new"
+     - Name: `ski-field-tracker-plan`
+     - **Sku and size**: **Free F1** (for development) or **Basic B1** ($13/month for production)
+5. Click "Review + create" → "Create"
+6. Wait for deployment (~2-3 minutes)
 
-# Or using Homebrew
-brew install flyctl
+### 2. Configure Environment Variables
+
+1. In Azure Portal, go to your App Service
+2. Left menu → **Configuration** → **Application settings**
+3. Add:
+   - `ConnectionStrings__DefaultConnection` = Your Supabase connection string
+   - `ASPNETCORE_ENVIRONMENT` = `Production`
+4. Click "Save"
+
+### 3. Configure GitHub Deployment
+
+1. In Azure Portal, go to your App Service
+2. Left menu → **Deployment Center**
+3. Select **GitHub** → Authorize
+4. Choose:
+   - **Organization**: Your GitHub username/org
+   - **Repository**: `c-shlopes`
+   - **Branch**: `main`
+   - **Build provider**: GitHub Actions (recommended)
+5. Click "Save"
+6. Azure will automatically create a GitHub Actions workflow
+
+### 4. Update GitHub Actions Workflow
+
+The auto-generated workflow should work, but if you need to customize it, the workflow file is at:
+```
+.github/workflows/main_ski-field-tracker-api.yml
 ```
 
-### 2. Login to Fly.io
+### 5. Run Database Migrations and Seed
 
+**Option A: Using Azure Cloud Shell**
+1. In Azure Portal, click the Cloud Shell icon (top bar)
+2. Run:
 ```bash
-flyctl auth login
-```
-
-### 3. Build and Deploy
-
-```bash
-cd backend/SkiFieldTracker.Api
-
-# Publish .NET application
-dotnet publish -c Release -o ./publish
-
-# First-time deployment (will auto-create app)
-flyctl launch --no-deploy
-
-# Set environment variables
-flyctl secrets set ConnectionStrings__DefaultConnection="Your Supabase connection string"
-flyctl secrets set ASPNETCORE_ENVIRONMENT=Production
-
-# Deploy
-flyctl deploy
-```
-
-### 4. Run Database Migrations and Seed
-
-```bash
-# SSH into Fly.io machine
-flyctl ssh console
-
-# Run inside the machine
-cd /app
+az webapp ssh --name ski-field-tracker-api --resource-group ski-field-tracker
+cd /home/site/wwwroot
 dotnet SkiFieldTracker.Api.dll -- --seed
 ```
 
-### 5. Get API URL
+**Option B: Using Kudu Console**
+1. Go to `https://ski-field-tracker-api.scm.azurewebsites.net`
+2. Click "Debug console" → "CMD"
+3. Navigate to `site/wwwroot`
+4. Run: `dotnet SkiFieldTracker.Api.dll -- --seed`
 
-After deployment, your API URL will be:
+### 6. Get API URL
+
+Your API URL will be:
 ```
-https://ski-field-tracker-api.fly.dev
-```
-
-## Subsequent Deployments (Just 1 command)
-
-```bash
-cd backend/SkiFieldTracker.Api
-dotnet publish -c Release -o ./publish
-flyctl deploy
+https://ski-field-tracker-api.azurewebsites.net
 ```
 
-## Free Tier Limits
+## Free Tier (F1) Limits
 
-- **3 shared CPU VMs**
-- **256MB RAM per VM**
-- **160GB outbound traffic/month**
-- **3GB persistent storage**
+- **60 minutes compute time/month**
+- **1 GB storage**
+- **5 GB bandwidth/month**
 
-More than enough for an API!
+For production, upgrade to Basic B1 ($13/month) for unlimited compute time.
 
 ## Troubleshooting
 
-- **Deployment failed**: Run `flyctl logs` to view logs
-- **API not accessible**: Check `flyctl status`
-- **Database connection failed**: Verify environment variables are set correctly
+- **Deployment failed**: Check GitHub Actions logs
+- **API not accessible**: Check environment variables
+- **Database connection failed**: Verify connection string format
 
-## Update Environment Variables
-
-```bash
-flyctl secrets set ConnectionStrings__DefaultConnection="New connection string"
-```
-
-## View Logs
+## Manual Deployment (if needed)
 
 ```bash
-flyctl logs
-```
+# Install Azure CLI
+# macOS: brew install azure-cli
+az login
 
-## Stop/Start App (Save Resources)
+# Build and publish
+cd backend/SkiFieldTracker.Api
+dotnet publish -c Release -o ./publish
 
-```bash
-flyctl scale count 0  # Stop
-flyctl scale count 1  # Start
+# Deploy
+az webapp deploy --name ski-field-tracker-api --resource-group ski-field-tracker --src-path ./publish
 ```
