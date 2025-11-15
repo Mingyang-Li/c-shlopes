@@ -68,22 +68,23 @@ var allowedCorsOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins")
     .Get<string[]>() ?? [];
 
+var logger = LoggerFactory.Create(config => config.AddConsole()).CreateLogger("CorsConfig");
+logger.LogInformation("Environment: {Environment}", builder.Environment.EnvironmentName);
+logger.LogInformation("Allowed CORS origins count: {Count}", allowedCorsOrigins.Length);
+if (allowedCorsOrigins.Length > 0)
+{
+    logger.LogInformation("Allowed origins: {Origins}", string.Join(", ", allowedCorsOrigins));
+}
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DefaultCors", policy =>
     {
-        if (allowedCorsOrigins.Length == 0)
-        {
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
-        else
-        {
-            policy.WithOrigins(allowedCorsOrigins)
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
+        // allow all origins for now
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -128,6 +129,9 @@ if (seedOnly || cleanOnly || resetDb)
     return;
 }
 
+// CORS must be before other middleware
+app.UseCors("DefaultCors");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -136,11 +140,14 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ski Field Tracker API v1");
         options.DisplayRequestDuration();
     });
+
+    // Disable HTTPS redirection in development to avoid CORS issues
+    // app.UseHttpsRedirection();
 }
-
-app.UseCors("DefaultCors");
-
-app.UseHttpsRedirection();
+else
+{
+    app.UseHttpsRedirection();
+}
 
 app.MapControllers();
 

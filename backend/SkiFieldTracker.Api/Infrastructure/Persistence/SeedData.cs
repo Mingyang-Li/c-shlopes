@@ -44,7 +44,7 @@ public static class SeedData
             new() { Name = "The Remarkables", CountryCode = "NZL", Region = "Otago", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Roundhill", CountryCode = "NZL", Region = "Canterbury", FullDayPassPrice = 95.00m, Currency = "NZD", NearestTown = "Lake Tekapo", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Ohau", CountryCode = "NZL", Region = "Canterbury", FullDayPassPrice = 89.00m, Currency = "NZD", NearestTown = "Twizel", CreatedAt = now, UpdatedAt = now },
-            new() { Name = "Treble Cone", CountryCode = "NZL", Region = "Otago", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now }, 
+            new() { Name = "Treble Cone", CountryCode = "NZL", Region = "Otago", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Cardrona Alpine Resort", CountryCode = "NZL", Region = "Otago", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Mt Hutt Ski Area", CountryCode = "NZL", Region = "Canterbury", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now },
 
