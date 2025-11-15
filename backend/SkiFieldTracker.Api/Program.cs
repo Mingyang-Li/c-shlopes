@@ -1,9 +1,12 @@
+using System.Net;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using SkiFieldTracker.Application.Abstractions.Repositories;
 using SkiFieldTracker.Application.SkiFields.UseCases;
 using SkiFieldTracker.Infrastructure.Persistence;
@@ -62,7 +65,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                      ?? "Host=localhost;Port=5432;Database=ski_field_tracker;Username=ski_admin;Password=ski_admin_pw";
+                      ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured. Please set it in appsettings.json or environment variables.");
 
 var allowedCorsOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins")
@@ -90,6 +93,29 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
+    // Force IPv4 by resolving hostname to IPv4 address
+    var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
+    if (!string.IsNullOrEmpty(connectionStringBuilder.Host) && 
+        !IPAddress.TryParse(connectionStringBuilder.Host, out _))
+    {
+        try
+        {
+            var hostEntry = Dns.GetHostEntry(connectionStringBuilder.Host);
+            var ipv4Address = hostEntry.AddressList
+                .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+            
+            if (ipv4Address != null)
+            {
+                connectionStringBuilder.Host = ipv4Address.ToString();
+                connectionString = connectionStringBuilder.ToString();
+            }
+        }
+        catch
+        {
+            // If DNS resolution fails, continue with original hostname
+        }
+    }
+    
     options.UseNpgsql(connectionString);
     options.UseSnakeCaseNamingConvention();
 });

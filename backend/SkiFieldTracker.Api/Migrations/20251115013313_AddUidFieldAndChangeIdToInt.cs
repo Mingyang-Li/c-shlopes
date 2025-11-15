@@ -49,8 +49,7 @@ namespace SkiFieldTracker.Migrations
                 table: "ski_fields",
                 type: "character varying(21)",
                 maxLength: 21,
-                nullable: false,
-                defaultValueSql: "generate_nanoid()");
+                nullable: false);
 
             // Create unique index on uid
             migrationBuilder.CreateIndex(

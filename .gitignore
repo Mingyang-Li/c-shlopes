@@ -123,6 +123,10 @@ _ReSharper*/
 .env
 *.local.json
 
+# Production/Secrets - DO NOT COMMIT
+**/appsettings.Production.json
+**/appsettings.*.secrets.json
+
 # Docker
 **/docker-compose.override.yml
 
