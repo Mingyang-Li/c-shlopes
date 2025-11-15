@@ -23,37 +23,70 @@ public static class SeedData
             new() { Name = "Aspen Snowmass", CountryCode = "USA", Region = "Colorado", FullDayPassPrice = 209.00m, Currency = "USD", NearestTown = "Aspen", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Beaver Creek", CountryCode = "USA", Region = "Colorado", FullDayPassPrice = 195.00m, Currency = "USD", NearestTown = "Avon", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Jackson Hole", CountryCode = "USA", Region = "Wyoming", FullDayPassPrice = 189.00m, Currency = "USD", NearestTown = "Jackson", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Silver Mountain Resort", CountryCode = "USA", Region = "Idaho", FullDayPassPrice = 189.00m, Currency = "USD", NearestTown = "Kellogg", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Mammoth Mountain Ski Area", CountryCode = "USA", Region = "California", FullDayPassPrice = 189.00m, Currency = "USD", NearestTown = "Mammoth Lakes", CreatedAt = now, UpdatedAt = now },
 
             // Japan
             new() { Name = "Niseko", CountryCode = "JPN", Region = "Hokkaido", FullDayPassPrice = 8500.00m, Currency = "JPY", NearestTown = "Niseko", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Hakuba", CountryCode = "JPN", Region = "Nagano", FullDayPassPrice = 6500.00m, Currency = "JPY", NearestTown = "Hakuba", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Abashiri Lake View Ski Area", CountryCode = "JPN", Region = "Hokkaido", FullDayPassPrice = 1000.00m, Currency = "JPY", NearestTown = "Abashiri", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Zao Onsen Ski Resort", CountryCode = "JPN", Region = "Miyagi", FullDayPassPrice = 1500.00m, Currency = "JPY", NearestTown = "Zao", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Happo-one", CountryCode = "JPN", Region = "Nagano", FullDayPassPrice = 9500.00m, Currency = "JPY", NearestTown = "Hakuba", CreatedAt = now, UpdatedAt = now },
 
             // Australia
             new() { Name = "Perisher", CountryCode = "AUS", Region = "New South Wales", FullDayPassPrice = 165.00m, Currency = "AUD", NearestTown = "Jindabyne", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Mt Buller", CountryCode = "AUS", Region = "Victoria", FullDayPassPrice = 155.00m, Currency = "AUD", NearestTown = "Mansfield", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Thredbo Ski Field", CountryCode = "AUS", Region = "New South Wales", FullDayPassPrice = 165.00m, Currency = "AUD", NearestTown = "Jindabyne", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Hotham Alpine Resort", CountryCode = "AUS", Region = "Victoria", FullDayPassPrice = 155.00m, Currency = "AUD", NearestTown = "Hotham", CreatedAt = now, UpdatedAt = now },
 
             // New Zealand
             new() { Name = "Coronet Peak", CountryCode = "NZL", Region = "Otago", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now },
             new() { Name = "The Remarkables", CountryCode = "NZL", Region = "Otago", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Roundhill", CountryCode = "NZL", Region = "Canterbury", FullDayPassPrice = 95.00m, Currency = "NZD", NearestTown = "Lake Tekapo", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Ohau", CountryCode = "NZL", Region = "Canterbury", FullDayPassPrice = 89.00m, Currency = "NZD", NearestTown = "Twizel", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Treble Cone", CountryCode = "NZL", Region = "Otago", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now }, 
+            new() { Name = "Cardrona Alpine Resort", CountryCode = "NZL", Region = "Otago", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Mt Hutt Ski Area", CountryCode = "NZL", Region = "Canterbury", FullDayPassPrice = 135.00m, Currency = "NZD", NearestTown = "Queenstown", CreatedAt = now, UpdatedAt = now },
 
             // France
             new() { Name = "Chamonix", CountryCode = "FRA", Region = "Auvergne-Rhône-Alpes", FullDayPassPrice = 65.00m, Currency = "EUR", NearestTown = "Chamonix", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Courchevel", CountryCode = "FRA", Region = "Auvergne-Rhône-Alpes", FullDayPassPrice = 68.00m, Currency = "EUR", NearestTown = "Courchevel", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Alpe d'Huez", CountryCode = "FRA", Region = "Auvergne-Rhône-Alpes", FullDayPassPrice = 68.00m, Currency = "EUR", NearestTown = "Alpe d'Huez", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Les Arcs", CountryCode = "FRA", Region = "Auvergne-Rhône-Alpes", FullDayPassPrice = 68.00m, Currency = "EUR", NearestTown = "Les Arcs", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Domaine Les Sybelles", CountryCode = "FRA", Region = "Auvergne-Rhône-Alpes", FullDayPassPrice = 68.00m, Currency = "EUR", NearestTown = "Les Sybelles", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Val Thorens", CountryCode = "FRA", Region = "Auvergne-Rhône-Alpes", FullDayPassPrice = 68.00m, Currency = "EUR", NearestTown = "Val Thorens", CreatedAt = now, UpdatedAt = now },
 
             // Switzerland
             new() { Name = "Zermatt", CountryCode = "CHE", Region = "Valais", FullDayPassPrice = 88.00m, Currency = "CHF", NearestTown = "Zermatt", CreatedAt = now, UpdatedAt = now },
-
+            new() { Name = "La Fouly - Val Ferret", CountryCode = "CHE", Region = "Valais", FullDayPassPrice = 88.00m, Currency = "CHF", NearestTown = "Zermatt", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Verbier", CountryCode = "CHE", Region = "Valais", FullDayPassPrice = 88.00m, Currency = "CHF", NearestTown = "Verbier", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Les Diablerets", CountryCode = "CHE", Region = "Valais", FullDayPassPrice = 88.00m, Currency = "CHF", NearestTown = "Les Diablerets", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Grindelwald Ski Resort", CountryCode = "CHE", Region = "Valais", FullDayPassPrice = 88.00m, Currency = "CHF", NearestTown = "Grimentz", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Crans-Montana", CountryCode = "CHE", Region = "Valais", FullDayPassPrice = 88.00m, Currency = "CHF", NearestTown = "Crans-Montana", CreatedAt = now, UpdatedAt = now },
+ 
             // Austria
             new() { Name = "St. Anton", CountryCode = "AUT", Region = "Tyrol", FullDayPassPrice = 62.00m, Currency = "EUR", NearestTown = "St. Anton", CreatedAt = now, UpdatedAt = now },
             new() { Name = "Kitzbühel", CountryCode = "AUT", Region = "Tyrol", FullDayPassPrice = 60.00m, Currency = "EUR", NearestTown = "Kitzbühel", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Galtür - Silvretta", CountryCode = "AUT", Region = "Tyrol", FullDayPassPrice = 60.00m, Currency = "EUR", NearestTown = "Galtür", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Loser - Altaussee", CountryCode = "AUT", Region = "Tyrol", FullDayPassPrice = 60.00m, Currency = "EUR", NearestTown = "Loser", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Zell am See - Kaprun", CountryCode = "AUT", Region = "Tyrol", FullDayPassPrice = 60.00m, Currency = "EUR", NearestTown = "Zell am See", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Obertauern", CountryCode = "AUT", Region = "Tyrol", FullDayPassPrice = 60.00m, Currency = "EUR", NearestTown = "Obertauern", CreatedAt = now, UpdatedAt = now },
 
             // Italy
             new() { Name = "Cortina d'Ampezzo", CountryCode = "ITA", Region = "Veneto", FullDayPassPrice = 58.00m, Currency = "EUR", NearestTown = "Cortina d'Ampezzo", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Via Lattea", CountryCode = "ITA", Region = "Veneto", FullDayPassPrice = 58.00m, Currency = "EUR", NearestTown = "Via Lattea", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Fontane - Vetta", CountryCode = "ITA", Region = "Veneto", FullDayPassPrice = 58.00m, Currency = "EUR", NearestTown = "Fontane", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Alpe Cimbra", CountryCode = "ITA", Region = "Veneto", FullDayPassPrice = 58.00m, Currency = "EUR", NearestTown = "Alpe Cimbra", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Foppolo - Carona Ski field", CountryCode = "ITA", Region = "Veneto", FullDayPassPrice = 58.00m, Currency = "EUR", NearestTown = "Foppolo", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Val di Fiemme, Ski Areal", CountryCode = "ITA", Region = "Veneto", FullDayPassPrice = 58.00m, Currency = "EUR", NearestTown = "Val di Fiemme", CreatedAt = now, UpdatedAt = now },
 
             // Chile
-            new() { Name = "Portillo", CountryCode = "CHL", Region = "Valparaíso", FullDayPassPrice = 85.00m, Currency = "USD", NearestTown = "Los Andes", CreatedAt = now, UpdatedAt = now }
+            new() { Name = "Portillo", CountryCode = "CHL", Region = "Valparaíso", FullDayPassPrice = 85.00m, Currency = "USD", NearestTown = "Los Andes", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "El Colorado", CountryCode = "CHL", Region = "Valparaíso", FullDayPassPrice = 85.00m, Currency = "USD", NearestTown = "El Colorado", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Farellones", CountryCode = "CHL", Region = "Valparaíso", FullDayPassPrice = 85.00m, Currency = "USD", NearestTown = "Farellones", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Valle Nevado", CountryCode = "CHL", Region = "Valparaíso", FullDayPassPrice = 85.00m, Currency = "USD", NearestTown = "Valle Nevado", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Centro de Ski Corralco", CountryCode = "CHL", Region = "Valparaíso", FullDayPassPrice = 85.00m, Currency = "USD", NearestTown = "Corralco", CreatedAt = now, UpdatedAt = now },
+            new() { Name = "Sierra Nevada", CountryCode = "CHL", Region = "Valparaíso", FullDayPassPrice = 85.00m, Currency = "USD", NearestTown = "Sierra Nevada", CreatedAt = now, UpdatedAt = now },
         };
     }
 }
