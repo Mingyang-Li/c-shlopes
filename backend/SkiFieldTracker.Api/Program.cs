@@ -83,36 +83,50 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("DefaultCors", policy =>
     {
-        // allow all origins for now
-        policy.AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+        if (allowedCorsOrigins.Length > 0)
+        {
+            // Use configured origins (production)
+            policy.WithOrigins(allowedCorsOrigins)
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        }
+        else
+        {
+            // Allow all origins (development only, no credentials)
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
     });
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    // Force IPv4 by resolving hostname to IPv4 address
-    var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
-    if (!string.IsNullOrEmpty(connectionStringBuilder.Host) && 
-        !IPAddress.TryParse(connectionStringBuilder.Host, out _))
+    // Skip DNS resolution in production (Azure handles this)
+    // Only do DNS resolution in development if needed
+    if (builder.Environment.IsDevelopment())
     {
-        try
+        var connectionStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
+        if (!string.IsNullOrEmpty(connectionStringBuilder.Host) && 
+            !IPAddress.TryParse(connectionStringBuilder.Host, out _))
         {
-            var hostEntry = Dns.GetHostEntry(connectionStringBuilder.Host);
-            var ipv4Address = hostEntry.AddressList
-                .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-            
-            if (ipv4Address != null)
+            try
             {
-                connectionStringBuilder.Host = ipv4Address.ToString();
-                connectionString = connectionStringBuilder.ToString();
+                var hostEntry = Dns.GetHostEntry(connectionStringBuilder.Host);
+                var ipv4Address = hostEntry.AddressList
+                    .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+                
+                if (ipv4Address != null)
+                {
+                    connectionStringBuilder.Host = ipv4Address.ToString();
+                    connectionString = connectionStringBuilder.ToString();
+                }
             }
-        }
-        catch
-        {
-            // If DNS resolution fails, continue with original hostname
+            catch
+            {
+                // If DNS resolution fails, continue with original hostname
+            }
         }
     }
     
@@ -127,12 +141,20 @@ builder.Services.AddScoped<IUpdateSkiFieldUseCase, UpdateSkiFieldUseCase>();
 builder.Services.AddScoped<IDeleteSkiFieldUseCase, DeleteSkiFieldUseCase>();
 builder.Services.AddScoped<IQuerySkiFieldsUseCase, QuerySkiFieldsUseCase>();
 
+// Add health checks
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
+// Database migration and seeding (only run migrations in production, skip seeding)
 await using (var scope = app.Services.CreateAsyncScope())
 {
     var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+    var appLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    
+    appLogger.LogInformation("Starting database migration...");
     await seeder.EnsureDatabaseMigratedAsync(CancellationToken.None);
+    appLogger.LogInformation("Database migration completed.");
 
     if (cleanOnly)
     {
@@ -147,7 +169,18 @@ await using (var scope = app.Services.CreateAsyncScope())
         return;
     }
 
-    await seeder.SeedAsync(CancellationToken.None);
+    // Only seed in development or when explicitly requested
+    // In production, skip seeding to avoid startup delay
+    if (seedOnly || builder.Environment.IsDevelopment())
+    {
+        appLogger.LogInformation("Seeding database...");
+        await seeder.SeedAsync(CancellationToken.None);
+        appLogger.LogInformation("Database seeding completed.");
+    }
+    else
+    {
+        appLogger.LogInformation("Skipping database seeding in production. Use --seed flag if needed.");
+    }
 }
 
 if (seedOnly || cleanOnly || resetDb)
@@ -176,6 +209,9 @@ else
 }
 
 app.MapControllers();
+
+// Health check endpoint
+app.MapHealthChecks("/health");
 
 await app.RunAsync();
 
