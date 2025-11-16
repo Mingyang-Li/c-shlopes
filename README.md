@@ -4,7 +4,8 @@ A full-stack web application for discovering and managing ski resorts worldwide.
 
 ## 🎥 Demo
 
-**[Watch the demo video →](https://www.loom.com/share/01acb0d80a1747178c365e21cbd8a124)**
+** Watch the demo video **
+https://www.loom.com/share/01acb0d80a1747178c365e21cbd8a124
 
 ## 🚀 Tech Stack
 
