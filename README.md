@@ -70,7 +70,7 @@ This will start a PostgreSQL container with:
 
 ```bash
 # Apply migrations and seed the database
-dotnet run --project backend/SkiFieldTracker.Api -- --seed
+dotnet run --project backend/SkiFieldTracker.Seeder -- --migrate --seed
 ```
 
 #### Run the API
@@ -90,6 +90,21 @@ The API will be available at:
 ```bash
 dotnet msbuild backend/SkiFieldTracker.Api/SkiFieldTracker.Api.csproj -t:DockerPostgresDown
 ```
+
+#### Run API + PostgreSQL via Docker Compose
+
+For a containerized local setup that mirrors production-style deployments:
+
+```bash
+cd backend/SkiFieldTracker.Api
+docker compose up --build
+```
+
+This spins up both services defined in `backend/SkiFieldTracker.Api/docker-compose.yml`:
+- `api`: the ASP.NET Core backend listening on `http://localhost:8080`
+- `postgres`: PostgreSQL with the default credentials defined in `appsettings.Development.json`
+
+Use `docker compose down` to stop the stack. Data persists in the named volume `postgres-data`.
 
 ### 3. Frontend Setup
 
@@ -183,8 +198,8 @@ The response returns `items` and `totalCount`.
 ### Migrations & Seeding
 
 - Migrations live in `backend/SkiFieldTracker.Api/Migrations`
-- Running with `--seed` applies migrations and inserts seed data (idempotent)
-- Normal startup applies pending migrations automatically
+- Use the dedicated seeder CLI (`backend/SkiFieldTracker.Seeder`) to run migrations/seed/clean operations
+- The API no longer seeds data automatically; run the CLI explicitly when you need local fixtures
 
 ### MSBuild Commands
 
@@ -195,12 +210,27 @@ dotnet msbuild backend/SkiFieldTracker.Api/SkiFieldTracker.Api.csproj -t:DockerP
 # Stop database
 dotnet msbuild backend/SkiFieldTracker.Api/SkiFieldTracker.Api.csproj -t:DockerPostgresDown
 
-# Seed database
+# Apply migrations
+dotnet msbuild backend/SkiFieldTracker.Api/SkiFieldTracker.Api.csproj -t:DbMigrate
+
+# Seed database (migrate + seed)
 dotnet msbuild backend/SkiFieldTracker.Api/SkiFieldTracker.Api.csproj -t:DbSeed
 
-# Reset database (clean + seed)
+# Reset database (clean + migrate + seed)
 dotnet msbuild backend/SkiFieldTracker.Api/SkiFieldTracker.Api.csproj -t:DbReset
 ```
+
+#### Seeder CLI (direct usage)
+
+```bash
+# Apply migrations only
+dotnet run --project backend/SkiFieldTracker.Seeder -- --migrate
+
+# Clean + seed (useful for local fixtures)
+dotnet run --project backend/SkiFieldTracker.Seeder -- --reset
+```
+
+Set `DOTNET_ENVIRONMENT` to control which `appsettings.{Environment}.json` is loaded. Connection strings and credentials come from the same configuration as the API.
 
 ## 🌐 Deployment
 

@@ -44,17 +44,22 @@
 
   <Target Name="DbClean">
     <Message Importance="high" Text="Cleaning database..." />
-    <Exec Command="dotnet run --project $(MSBuildProjectFile) -- --clean" />
+    <Exec Command="dotnet run --project $(MSBuildProjectDirectory)/../SkiFieldTracker.Seeder/SkiFieldTracker.Seeder.csproj -- --clean" />
+  </Target>
+
+  <Target Name="DbMigrate">
+    <Message Importance="high" Text="Applying EF Core migrations..." />
+    <Exec Command="dotnet run --project $(MSBuildProjectDirectory)/../SkiFieldTracker.Seeder/SkiFieldTracker.Seeder.csproj -- --migrate" />
   </Target>
 
   <Target Name="DbSeed">
     <Message Importance="high" Text="Seeding database (no cleanup)" />
-    <Exec Command="dotnet run --project $(MSBuildProjectFile) -- --seed" />
+    <Exec Command="dotnet run --project $(MSBuildProjectDirectory)/../SkiFieldTracker.Seeder/SkiFieldTracker.Seeder.csproj -- --migrate --seed" />
   </Target>
 
   <Target Name="DbReset">
     <Message Importance="high" Text="Resetting database (clean + seed)..." />
-    <Exec Command="dotnet run --project $(MSBuildProjectFile) -- --reset" />
+    <Exec Command="dotnet run --project $(MSBuildProjectDirectory)/../SkiFieldTracker.Seeder/SkiFieldTracker.Seeder.csproj -- --reset" />
   </Target>
 </Project>
 

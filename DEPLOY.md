@@ -60,20 +60,19 @@ The auto-generated workflow should work, but if you need to customize it, the wo
 
 ### 5. Run Database Migrations and Seed
 
-**Option A: Using Azure Cloud Shell**
-1. In Azure Portal, click the Cloud Shell icon (top bar)
-2. Run:
+Use the standalone seeder CLI so that the Web App binary stays minimal. From your local machine (or any environment with access to the production database):
+
 ```bash
-az webapp ssh --name ski-field-tracker-api --resource-group ski-field-tracker
-cd /home/site/wwwroot
-dotnet SkiFieldTracker.Api.dll -- --seed
+export ConnectionStrings__DefaultConnection="<production-connection-string>"
+
+# Apply migrations
+dotnet run --project backend/SkiFieldTracker.Seeder -- --migrate
+
+# Optionally seed initial ski fields
+dotnet run --project backend/SkiFieldTracker.Seeder -- --seed
 ```
 
-**Option B: Using Kudu Console**
-1. Go to `https://ski-field-tracker-api.scm.azurewebsites.net`
-2. Click "Debug console" → "CMD"
-3. Navigate to `site/wwwroot`
-4. Run: `dotnet SkiFieldTracker.Api.dll -- --seed`
+Remove the environment variable afterwards or store it securely. The CLI respects all `appsettings`/environment rules that the API uses.
 
 ### 6. Get API URL
 

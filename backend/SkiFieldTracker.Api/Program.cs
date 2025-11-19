@@ -12,10 +12,6 @@ using SkiFieldTracker.Application.SkiFields.UseCases;
 using SkiFieldTracker.Infrastructure.Persistence;
 using SkiFieldTracker.Infrastructure.Repositories;
 
-var seedOnly = args.Any(a => string.Equals(a, "--seed", StringComparison.OrdinalIgnoreCase));
-var cleanOnly = args.Any(a => string.Equals(a, "--clean", StringComparison.OrdinalIgnoreCase));
-var resetDb = args.Any(a => string.Equals(a, "--reset", StringComparison.OrdinalIgnoreCase));
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<RouteOptions>(options =>
@@ -134,7 +130,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSnakeCaseNamingConvention();
 });
 
-builder.Services.AddScoped<DataSeeder>();
 builder.Services.AddScoped<ISkiFieldRepository, SkiFieldRepository>();
 builder.Services.AddScoped<ICreateSkiFieldUseCase, CreateSkiFieldUseCase>();
 builder.Services.AddScoped<IUpdateSkiFieldUseCase, UpdateSkiFieldUseCase>();
@@ -146,46 +141,16 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-// Database migration and seeding (only run migrations in production, skip seeding)
-await using (var scope = app.Services.CreateAsyncScope())
+var runMigrationsOnStartup = builder.Configuration.GetValue("Database:RunMigrationsOnStartup", true);
+if (runMigrationsOnStartup)
 {
-    var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+    await using var scope = app.Services.CreateAsyncScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var appLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-    
-    appLogger.LogInformation("Starting database migration...");
-    await seeder.EnsureDatabaseMigratedAsync(CancellationToken.None);
-    appLogger.LogInformation("Database migration completed.");
 
-    if (cleanOnly)
-    {
-        await seeder.CleanAsync(CancellationToken.None);
-        return;
-    }
-
-    if (resetDb)
-    {
-        await seeder.CleanAsync(CancellationToken.None);
-        await seeder.SeedAsync(CancellationToken.None);
-        return;
-    }
-
-    // Only seed in development or when explicitly requested
-    // In production, skip seeding to avoid startup delay
-    if (seedOnly || builder.Environment.IsDevelopment())
-    {
-        appLogger.LogInformation("Seeding database...");
-        await seeder.SeedAsync(CancellationToken.None);
-        appLogger.LogInformation("Database seeding completed.");
-    }
-    else
-    {
-        appLogger.LogInformation("Skipping database seeding in production. Use --seed flag if needed.");
-    }
-}
-
-if (seedOnly || cleanOnly || resetDb)
-{
-    return;
+    appLogger.LogInformation("Applying pending EF Core migrations...");
+    await dbContext.Database.MigrateAsync(CancellationToken.None);
+    appLogger.LogInformation("Database is up to date.");
 }
 
 // CORS must be before other middleware

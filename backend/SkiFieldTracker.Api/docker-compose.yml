@@ -1,0 +1,30 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ski-field-tracker-api
+    depends_on:
+      - postgres
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=ski_field_tracker;Username=ski_admin;Password=ski_admin_pw
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+  postgres:
+    image: postgres:16-alpine
+    container_name: ski-field-tracker-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ski_field_tracker
+      POSTGRES_USER: ski_admin
+      POSTGRES_PASSWORD: ski_admin_pw
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+
